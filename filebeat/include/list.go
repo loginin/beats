@@ -27,6 +27,7 @@ import (
 	_ "github.com/elastic/beats/v7/filebeat/input/log"
 	_ "github.com/elastic/beats/v7/filebeat/input/mqtt"
 	_ "github.com/elastic/beats/v7/filebeat/input/redis"
+	_ "github.com/elastic/beats/v7/filebeat/input/rocketmq"
 	_ "github.com/elastic/beats/v7/filebeat/input/stdin"
 	_ "github.com/elastic/beats/v7/filebeat/input/syslog"
 	_ "github.com/elastic/beats/v7/filebeat/input/tcp"

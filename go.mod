@@ -26,6 +26,7 @@ require (
 	github.com/akavel/rsrc v0.8.0 // indirect
 	github.com/andrewkroh/sys v0.0.0-20151128191922-287798fe3e43
 	github.com/antlr/antlr4 v0.0.0-20200820155224-be881fa6b91d
+	github.com/apache/rocketmq-client-go/v2 v2.1.0
 	github.com/apoydence/eachers v0.0.0-20181020210610-23942921fe77 // indirect
 	github.com/armon/go-socks5 v0.0.0-20160902184237-e75332964ef5
 	github.com/aws/aws-lambda-go v1.6.0
@@ -161,7 +162,7 @@ require (
 	go.elastic.co/ecszap v0.3.0
 	go.elastic.co/go-licence-detector v0.4.0
 	go.etcd.io/bbolt v1.3.4
-	go.uber.org/atomic v1.5.0
+	go.uber.org/atomic v1.5.1
 	go.uber.org/multierr v1.3.0
 	go.uber.org/zap v1.14.0
 	golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9
