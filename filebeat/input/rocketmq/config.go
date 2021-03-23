@@ -2,6 +2,7 @@ package rocketmq
 
 import (
 	"github.com/apache/rocketmq-client-go/v2/consumer"
+	"github.com/apache/rocketmq-client-go/v2/primitive"
 	"time"
 )
 
@@ -77,6 +78,12 @@ func newRocketmqConfig(ic rocketMqInputConfig) *rocketmqConfig {
 	opts = buildFromWhere(opts, ic)
 	if ic.ConsumeMessageBatchMaxSize > 0 {
 		opts = append(opts, consumer.WithConsumeMessageBatchMaxSize(ic.ConsumeMessageBatchMaxSize))
+	}
+	if ic.AccessKey != "" && ic.SecretKey != "" {
+		opts = append(opts, consumer.WithCredentials(primitive.Credentials{
+			AccessKey: ic.AccessKey,
+			SecretKey: ic.SecretKey,
+		}))
 	}
 	return &rocketmqConfig{
 		topic:       ic.Topic,
