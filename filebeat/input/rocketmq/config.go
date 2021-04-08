@@ -11,6 +11,7 @@ type rocketMqInputConfig struct {
 	GroupName       string        `config:"group_name" validate:"required"`
 	Topic           string        `config:"topic" validate:"required"`
 	WaitClose       time.Duration `config:"wait_close" validate:"min=0"`
+	LogLevel        string        `config:"log_level"`
 
 	//路由选择
 	Route        string `config:"route"` //sql92  tag
@@ -62,7 +63,10 @@ type rocketmqConfig struct {
 }
 
 func defaultConfig() rocketMqInputConfig {
-	return rocketMqInputConfig{}
+	return rocketMqInputConfig{
+		LogLevel:      "warn",
+		ConsumerModel: 1,
+	}
 }
 
 func newRocketmqConfig(ic rocketMqInputConfig) *rocketmqConfig {

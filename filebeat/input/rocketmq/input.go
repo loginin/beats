@@ -5,6 +5,7 @@ import (
 	"github.com/apache/rocketmq-client-go/v2"
 	"github.com/apache/rocketmq-client-go/v2/consumer"
 	"github.com/apache/rocketmq-client-go/v2/primitive"
+	"github.com/apache/rocketmq-client-go/v2/rlog"
 	"github.com/elastic/beats/v7/filebeat/channel"
 	"github.com/elastic/beats/v7/filebeat/input"
 	"github.com/elastic/beats/v7/libbeat/beat"
@@ -41,6 +42,8 @@ func NewInput(
 	if err := cfg.Unpack(&config); err != nil {
 		return nil, errors.Wrap(err, "reading rocketmq input config")
 	}
+
+	rlog.SetLogLevel(config.LogLevel)
 
 	out, err := connector.ConnectWith(cfg, beat.ClientConfig{
 		CloseRef:  doneChannelContext(inputContext.Done),
