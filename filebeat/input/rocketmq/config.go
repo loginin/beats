@@ -29,31 +29,23 @@ type rocketMqInputConfig struct {
 	RetryTimes   int    `config:"retry_times"`
 	InstanceName string `config:"instance_name"`
 
-	AccessKey     string `config:"access_key"`
-	SecretKey     string `config:"secret_key"`
-	SecurityToken string `config:"security_token"`
-	Namespace     string `config:"namespace"`
-
-	ConsumerPullTimeout int `config:"consumer_pull_timeout_mills"`
-
+	AccessKey           string `config:"access_key"`
+	SecretKey           string `config:"secret_key"`
+	SecurityToken       string `config:"security_token"`
+	Namespace           string `config:"namespace"`
+	ConsumerPullTimeout int    `config:"consumer_pull_timeout_mills"`
 	// Concurrently max span offset.it has no effect on sequential consumption
 	ConsumeConcurrentlyMaxSpan int
-
 	// Flow control threshold on queue level, each message queue will cache at most 1000 messages by default,
 	// Consider the {PullBatchSize}, the instantaneous value may exceed the limit
-	PullThresholdForQueue int64 `config:"pull_threshold_for_queue"`
-
-	PullThresholdSizeForQueue int `config:"pull_threshold_size_for_queue"`
-
-	PullThresholdForTopic int `config:"pull_threshold_for_topic"`
-
-	PullThresholdSizeForTopic int `config:"pull_threshold_size_for_topic"`
-
-	PullInterval int `config:"pull_interval"`
-
-	ConsumeMessageBatchMaxSize int `config:"consume_message_batch_max_size"`
-
-	MaxReconsumeTimes int32 `config:"max_reconsume_times"`
+	PullThresholdForQueue      int64 `config:"pull_threshold_for_queue"`
+	PullBatchSize              int32 `config:"pull_batch_size"`
+	PullThresholdSizeForQueue  int   `config:"pull_threshold_size_for_queue"`
+	PullThresholdForTopic      int   `config:"pull_threshold_for_topic"`
+	PullThresholdSizeForTopic  int   `config:"pull_threshold_size_for_topic"`
+	PullInterval               int   `config:"pull_interval_ms"`
+	ConsumeMessageBatchMaxSize int   `config:"consume_message_batch_max_size"`
+	MaxReconsumeTimes          int32 `config:"max_reconsume_times"`
 }
 
 type rocketmqConfig struct {
@@ -81,9 +73,7 @@ func newRocketmqConfig(ic rocketMqInputConfig) *rocketmqConfig {
 	}
 	opts = buildConsumerModel(opts, ic)
 	opts = buildFromWhere(opts, ic)
-	if ic.ConsumeMessageBatchMaxSize > 0 {
-		opts = append(opts, consumer.WithConsumeMessageBatchMaxSize(ic.ConsumeMessageBatchMaxSize))
-	}
+	opts = buildConfigProp(opts, ic)
 	if ic.AccessKey != "" && ic.SecretKey != "" {
 		opts = append(opts, consumer.WithCredentials(primitive.Credentials{
 			AccessKey: ic.AccessKey,
@@ -125,4 +115,13 @@ func buildFromWhere(opts []consumer.Option, ic rocketMqInputConfig) []consumer.O
 		return append(opts, consumer.WithConsumeFromWhere(consumer.ConsumeFromTimestamp))
 	}
 	return append(opts, consumer.WithConsumeFromWhere(consumer.ConsumeFromLastOffset))
+}
+func buildConfigProp(opts []consumer.Option, ic rocketMqInputConfig) []consumer.Option {
+	if ic.ConsumeMessageBatchMaxSize > 0 {
+		opts = append(opts, consumer.WithConsumeMessageBatchMaxSize(ic.ConsumeMessageBatchMaxSize))
+	}
+	if ic.PullBatchSize > 0 {
+		opts = append(opts, consumer.WithPullBatchSize(ic.PullBatchSize))
+	}
+	return opts
 }
