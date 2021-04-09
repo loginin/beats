@@ -66,6 +66,7 @@ func defaultConfig() rocketMqInputConfig {
 	return rocketMqInputConfig{
 		LogLevel:      "warn",
 		ConsumerModel: 1,
+		WaitClose:     1000 * time.Millisecond,
 	}
 }
 
