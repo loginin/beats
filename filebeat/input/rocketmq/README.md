@@ -24,12 +24,4 @@ filebeat.inputs:
 output.file:
   path: "/Users/jim/Desktop/c/h"
   filename: "filebeat"
-
-#output.elasticsearch:
-#  hosts: [ "https://node-1.es.sensetime.com:9200","https://node-2.es.sensetime.com:9200","https://node-3.es.sensetime.com:9200" ]
-#  ssl.certificate_authorities: '/usr/share/filebeat/elasticsearch-ca.pem'
-#  username: 'elastic'
-#  password: 'Code2021'
-#  index: "aix-log-%{+yyyy.MM.dd}"
-
 ```
