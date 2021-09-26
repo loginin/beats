@@ -120,6 +120,7 @@ func (input *rocketmqInput) createEvents(msgs ...*primitive.MessageExt) []beat.E
 					"tid":           msg.TransactionId,
 					"offset_msg_id": msg.OffsetMsgId,
 					"broker_name":   msg.Queue.BrokerName,
+					"tag":           msg.GetTags(),
 				},
 			},
 		}
